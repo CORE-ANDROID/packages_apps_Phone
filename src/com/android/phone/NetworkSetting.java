@@ -1,8 +1,5 @@
 /*
  * Copyright (C) 2006 The Android Open Source Project
- * Copyright (c) 2011-2013 The Linux Foundation. All rights reserved.
- *
- * Not a Contribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,8 +42,6 @@ import com.android.internal.telephony.OperatorInfo;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static com.android.internal.telephony.MSimConstants.SUBSCRIPTION_KEY;
 
 /**
  * "Networks" settings UI for the Phone app.
@@ -231,12 +226,7 @@ public class NetworkSetting extends PreferenceActivity
 
         addPreferencesFromResource(R.xml.carrier_select);
 
-        int subscription = getIntent().getIntExtra(SUBSCRIPTION_KEY,
-                MSimPhoneGlobals.getInstance().getDefaultSubscription());
-        log("onCreate subscription :" + subscription);
-        mPhone = MSimPhoneGlobals.getInstance().getPhone(subscription);
-        Intent intent = new Intent(this, NetworkQueryService.class);
-        intent.putExtra(SUBSCRIPTION_KEY, subscription);
+        mPhone = PhoneGlobals.getPhone();
 
         mNetworkList = (PreferenceGroup) getPreferenceScreen().findPreference(LIST_NETWORKS_KEY);
         mNetworkMap = new HashMap<Preference, OperatorInfo>();
@@ -249,7 +239,7 @@ public class NetworkSetting extends PreferenceActivity
         // long as startService is called) until a stopservice request is made.  Since
         // we want this service to just stay in the background until it is killed, we
         // don't bother stopping it from our end.
-        startService (intent);
+        startService (new Intent(this, NetworkQueryService.class));
         bindService (new Intent(this, NetworkQueryService.class), mNetworkQueryServiceConnection,
                 Context.BIND_AUTO_CREATE);
     }
@@ -306,7 +296,6 @@ public class NetworkSetting extends PreferenceActivity
                     dialog.setMessage(getResources().getString(R.string.load_networks_progress));
                     dialog.setCanceledOnTouchOutside(false);
                     dialog.setOnCancelListener(this);
-                    dialog.setCanceledOnTouchOutside(false);
                     break;
             }
             return dialog;

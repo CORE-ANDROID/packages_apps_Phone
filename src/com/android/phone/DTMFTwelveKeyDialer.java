@@ -57,14 +57,14 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     private static final boolean DBG = (PhoneGlobals.DBG_LEVEL >= 2);
 
     // events
-    protected static final int PHONE_DISCONNECT = 100;
-    protected static final int DTMF_SEND_CNF = 101;
-    protected static final int DTMF_STOP = 102;
+    private static final int PHONE_DISCONNECT = 100;
+    private static final int DTMF_SEND_CNF = 101;
+    private static final int DTMF_STOP = 102;
 
     /** Accessibility manager instance used to check touch exploration state. */
     private final AccessibilityManager mAccessibilityManager;
 
-    protected CallManager mCM;
+    private CallManager mCM;
     private ToneGenerator mToneGenerator;
     private final Object mToneGeneratorLock = new Object();
 
@@ -127,7 +127,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
     private EditText mDialpadDigits;
 
     // InCallScreen reference.
-    protected InCallScreen mInCallScreen;
+    private InCallScreen mInCallScreen;
 
     /**
      * The DTMFTwelveKeyDialerView we use to display the dialpad.
@@ -164,9 +164,9 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * This code is purely here to handle events from the hardware keyboard
      * while the DTMF dialpad is up.
      */
-    protected class DTMFKeyListener extends DialerKeyListener {
+    private class DTMFKeyListener extends DialerKeyListener {
 
-        protected DTMFKeyListener() {
+        private DTMFKeyListener() {
             super();
         }
 
@@ -481,7 +481,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
      * Dialer code that runs when the dialer is brought up.
      * This includes layout changes, etc, and just prepares the dialer model for use.
      */
-    protected void onDialerOpen(boolean animate) {
+    private void onDialerOpen(boolean animate) {
         if (DBG) log("onDialerOpen()...");
 
         // Any time the dialer is open, listen for "disconnect" events (so
@@ -1109,8 +1109,7 @@ public class DTMFTwelveKeyDialer implements View.OnTouchListener, View.OnKeyList
             } else {
                 return false;
             }
-        } else if (phoneType == PhoneConstants.PHONE_TYPE_SIP ||
-                   phoneType == PhoneConstants.PHONE_TYPE_IMS) {
+        } else if (phoneType == PhoneConstants.PHONE_TYPE_SIP) {
             return false;
         } else {
             throw new IllegalStateException("Unexpected phone type: " + phoneType);

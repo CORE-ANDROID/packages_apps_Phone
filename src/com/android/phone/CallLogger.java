@@ -23,7 +23,6 @@ import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyCapabilities;
 import com.android.phone.common.CallLogAsync;
 
-import android.net.Uri;
 import android.os.SystemProperties;
 import android.provider.CallLog.Calls;
 import android.telephony.PhoneNumberUtils;
@@ -146,8 +145,6 @@ class CallLogger {
 
         if ((o == null) || (o instanceof CallerInfo)) {
             ci = (CallerInfo) o;
-        } else if (o instanceof Uri) {
-            ci = CallerInfo.getCallerInfo(mApplication, (Uri) o);
         } else {
             ci = ((PhoneUtils.CallerInfoToken) o).currentInfo;
         }
